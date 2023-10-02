@@ -6,7 +6,7 @@ use std::time::Duration;
 use std::{cmp, thread};
 
 use crate::ewma::EwmaEstimator;
-use crate::profiler::Profiler;
+// use crate::profiler::Profiler;
 use crate::time::*;
 
 #[cfg(all(feature = "dx12", target_os = "windows"))]
@@ -45,8 +45,7 @@ struct ContextInner {
     optimal_latency_estimator: EwmaEstimator,
     bandwidth_estimator: BTreeMap<SectionId, EwmaEstimator>,
     target_top_frame_time: Option<u64>,
-
-    profiler: Profiler,
+    // profiler: Profiler,
 }
 
 impl Default for ContextInner {
@@ -57,7 +56,7 @@ impl Default for ContextInner {
             reference_frame: None,
             optimal_latency_estimator: EwmaEstimator::new(0.5),
             bandwidth_estimator: BTreeMap::new(),
-            profiler: Profiler::new(),
+            // profiler: Profiler::new(),
             target_top_frame_time: None,
         }
     }
@@ -106,7 +105,7 @@ impl ContextInner {
             .max()
             .unwrap_or(0);
 
-        let bias = 1000000;
+        let bias = 1_000_000;
         let now = timestamp_now();
         let mut target = self
             .last_predicted_frame_end()
@@ -161,7 +160,7 @@ impl ContextInner {
             });
         }
 
-        self.profiler.sleep(id, now, target);
+        // self.profiler.sleep(id, now, target);
 
         (handle, target)
     }
@@ -186,15 +185,15 @@ impl ContextInner {
                 self.optimal_latency_estimator
                     .update(cmp::min(optimal_latency, MAX_LATENCY) as f64);
 
-                self.profiler
-                    .latency(frame_id, real_latency, queueing_delay, frame.end_ts());
+                // self.profiler
+                //     .latency(frame_id, real_latency, queueing_delay, frame.end_ts());
 
-                self.profiler.frame_time(
-                    frame_id,
-                    frame.begin_ts() - reference_frame.begin_ts(),
-                    frame.end_ts() - reference_frame.end_ts(),
-                    frame.end_ts(),
-                );
+                // self.profiler.frame_time(
+                //     frame_id,
+                //     frame.begin_ts() - reference_frame.begin_ts(),
+                //     frame.end_ts() - reference_frame.end_ts(),
+                //     frame.end_ts(),
+                // );
             }
 
             for (section_id, duration) in frame.inverse_throughput().into_iter() {
@@ -222,9 +221,9 @@ impl Frame {
             .get_mut(&self.id)
             .unwrap()
             .mark(section_id, mark_type, timestamp);
-        inner
-            .profiler
-            .mark(self.id, section_id, mark_type, timestamp);
+        // inner
+        //     .profiler
+        //     .mark(self.id, section_id, mark_type, timestamp);
     }
 
     fn set_inv_throughput(&self, section_id: SectionId, inv_throughput: Interval) {

@@ -19,12 +19,21 @@ nix = { version = "0.26.1", default-features = false, features = ["time"] }
 
 [target.'cfg(windows)'.dependencies.windows]
 version = "0.43.0"
-features = ["Win32_Foundation", "Win32_System_Threading", "Win32_System_Performance", "Win32_Security", "Win32_System_WindowsProgramming",
-    "Win32_System_LibraryLoader"]
+features = [
+    "Win32_Foundation",
+    "Win32_System_Threading",
+    "Win32_System_Performance",
+    "Win32_Security",
+    "Win32_System_WindowsProgramming",
+    "Win32_System_LibraryLoader",
+]
 
 [features]
 default = ["dx12", "vulkan"]
-dx12 = ["windows/Win32_Graphics_Direct3D12", "windows/Win32_Graphics_Dxgi_Common"]
+dx12 = [
+    "windows/Win32_Graphics_Direct3D12",
+    "windows/Win32_Graphics_Dxgi_Common",
+]
 vulkan = ["ash"]
 
 [profile.dev]
@@ -32,3 +41,5 @@ panic = "abort"
 
 [profile.release]
 panic = "abort"
+strip = true
+lto = true

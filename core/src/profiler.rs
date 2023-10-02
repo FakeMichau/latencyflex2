@@ -89,13 +89,8 @@ impl Profiler {
             r#"{comma}  {{"name": "Frame Time", "cat": "LATENCY", "ph": "C", "pid": 1, "tid": "10000", "ts": {ts}, "args": {{"top_interval": {top_interval}, "bop_interval": {bop_interval}}}}}"#
         );
     }
-    
-    pub fn sleep(
-        &mut self,
-        frame_id: FrameId,
-        start_time: Timestamp,
-        end_time: Timestamp,
-    ) {
+
+    pub fn sleep(&mut self, frame_id: FrameId, start_time: Timestamp, end_time: Timestamp) {
         let name = "Sleep";
         let tid = 9999;
         let start = start_time / 1000;
