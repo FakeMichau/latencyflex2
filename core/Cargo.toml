@@ -35,5 +35,3 @@ dx12 = [
     "windows/Win32_Graphics_Dxgi_Common",
 ]
 vulkan = ["spark"]
-strip = true
-lto = true
